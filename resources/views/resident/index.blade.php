@@ -47,6 +47,7 @@
           </button>
         </div>
         <form action="#" method="POST" id="formInput">
+            <input type="hidden" name="id" id="id">
             <div class="modal-body">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Nama</label>
@@ -63,8 +64,8 @@
 
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                 <button type="submit" class="btn btn-primary">Simpan</button>
+                <button class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </form>
         </div>
       </div>
@@ -88,6 +89,7 @@
                 method : 'POST',
                 data : {
                     _token : '{{ csrf_token() }}',
+                    id : $('#id').val(),
                     nama : $('#nama').val(),
                     nomor : $('#nomor').val(),
                     alamat : $('#alamat').val()
@@ -148,6 +150,59 @@
                 }
             }]
         });
+
+        table.on('click','.btn-edit',function(){
+            let id = $(this).data('id');
+            let url = '{{ route('resident.edit',':id') }}';
+            let urlReplace = url.replace(':id',id);
+            $.ajax({
+                url : urlReplace,
+                method : 'GET'
+            }).then(ress => {
+                $('#nama').val(ress.data.name),
+                $('#nomor').val(ress.data.phone_number),
+                $('#alamat').val(ress.data.address)
+                $('#id').val(ress.data.id)
+                modalInput.modal('show');
+            })
+        })
+
+        table.on('click','.btn-trash',function(){
+            let id = $(this).data('id');
+            Swal.fire({
+                title: 'Anda Yakin Ingin Menghapus ?',
+                text: "Data Akan Di Delete Secara Permanent !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Hapus !'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    $.ajax({
+                        url : '{{ route('resident.delete') }}',
+                        method : 'POST',
+                        data : {
+                            _token : '{{ csrf_token() }}',
+                            id
+                        }
+                    }).then(ress => {
+                        if(ress.status == 200) {
+                            alertToast('success',ress.message);
+                            location.reload();
+                        }
+                    })
+                }
+            })
+
+        })
+
+        modalInput.on('hidden.bs.modal',function(){
+            $('#nama').val(''),
+            $('#nomor').val(''),
+            $('#alamat').val(''),
+            $('#id').val('')
+        })
 
         const alertToast = (icon,message) => {
             const Toast = Swal.mixin({

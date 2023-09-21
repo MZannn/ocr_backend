@@ -38,7 +38,7 @@ class ResidentController extends Controller
 
         if($request->id){
             $data = resident::where('id',$request->id)->first();
-            resident::create([
+            resident::where('id',$request->id)->update([
                 'name' => $request->nama ?? $data->name,
                 'address' => $request->alamat ?? $data->address,
                 'phone_number' => $request->nomor ?? $data->phone_number
@@ -56,10 +56,21 @@ class ResidentController extends Controller
         return response()->json(['status' => 200, 'msg' => 'Data Berhasil Di Simpan !']);
     }
 
+    public function edit($id){
+        $data = resident::where('id',$id)->first();
+        return response()->json(['status' => 200, 'data' => $data]);
+    }
+
     public function ajaxData()
     {
         $data = resident::all();
         return DataTables::of($data)->addIndexColumn()->toJson();
+    }
+
+    public function delete(Request $request)
+    {
+        resident::where('id',$request->id)->delete();
+        return response()->json(['status' => 200 ,'msg' => 'Data Berhasil Di Delete !']);
     }
 
 

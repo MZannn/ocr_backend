@@ -28,19 +28,26 @@ class SecurityController extends Controller
 
         if($request->id){
             $user = User::where('id',$request->id)->first();
+            if($request->password){
+                User::where('id',$request->id)->update([
+                    'name' => $request->nama ?? $user->name,
+                    'email' => $request->email ?? $user->email,
+                    'password' => Hash::make($request->password),
+                    'roles' => 'Security'
+                ]);
+                return response()->json(['status' => 200,'msg' => 'Data Berhasil Di Edit']);
+
+            }
             User::where('id',$request->id)->update([
                 'name' => $request->nama ?? $user->name,
                 'email' => $request->email ?? $user->email,
-                'password' => $request->password ? Hash::make($request->password) : $user->password
+                'roles' => 'Security'
             ]);
-
-
             return response()->json(['status' => 200,'msg' => 'Data Berhasil Di Edit']);
         }
 
-
         User::create([
-            'name' => $request->name,
+            'name' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'roles' => 'Security'
@@ -49,9 +56,20 @@ class SecurityController extends Controller
         return response()->json(['status' => 200,'msg' => 'Data Berhasil Di Simpan']);
     }
 
+    public function edit($id){
+        $data = User::where('id',$id)->first();
+        return response()->json(['status' => 200, 'data' => $data]);
+    }
+
     public function ajaxData()
     {
         $data = User::where('roles','!=','Admin')->get();
         return DataTables::of($data)->addIndexColumn()->toJson();
+    }
+
+    public function delete(Request $request)
+    {
+        User::where('id',$request->id)->delete();
+        return response()->json(['status' => 200 ,'msg' => 'Data Berhasil Di Delete !']);
     }
 }
