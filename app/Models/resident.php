@@ -9,13 +9,14 @@ class resident extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'identity_number',
         'name',
         'address',
         'phone_number',
     ];
     protected $hidden = [
-        'id',
+
         'created_at',
         'updated_at',
     ];
