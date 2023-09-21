@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->foreignId('residents_id')->constrained('residents')->onDelete('cascade');
             $table->date('date');
             $table->string('status');
+            $table->date('date_checkout')->nullable();
             $table->text('photo');
             $table->timestamps();
         });
