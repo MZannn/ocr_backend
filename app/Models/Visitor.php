@@ -17,6 +17,7 @@ class Visitor extends Model
         'date',
         'status',
         'photo',
+        'date_checkout',
     ];
     protected $hidden = [
         'created_at',
