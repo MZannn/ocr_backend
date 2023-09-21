@@ -29,7 +29,6 @@ class VisitorController extends Controller
             'status' => 'ACTIVE',
             'photo' => $request->file('photo')->store('assets/visitor', 'public'),
         ]);
-        dd($visitor);
         return ResponseFormatter::success(
             $visitor,
             'Data Visitor Berhasil Ditambahkan'
@@ -43,7 +42,7 @@ class VisitorController extends Controller
         $visitors = Visitor::query();
         if ($start_date && $end_date) {
             $visitors->where('status', 'INACTIVE')
-                ->whereBetween('date', [$start_date, $end_date]);
+                ->whereBetween('created_at', [$start_date, $end_date]);
         } else {
             ($visitors->where('status', 'ACTIVE'));
         }
@@ -89,18 +88,18 @@ class VisitorController extends Controller
             );
         }
     }
-    public function getVisitorByDateRange(Request $request)
-    {
-        $request->validate([
-            'start_date' => 'required',
-            'end_date' => 'required',
-        ]);
-        $visitors = Visitor::whereBetween('date', [$request->start_date, $request->end_date])
-            ->where('status', 'INACTIVE')
-            ->get();
-        return ResponseFormatter::success(
-            $visitors,
-            'Data Visitor Berhasil Diambil'
-        );
-    }
+    // public function getVisitorByDateRange(Request $request)
+    // {
+    //     $request->validate([
+    //         'start_date' => 'required',
+    //         'end_date' => 'required',
+    //     ]);
+    //     $visitors = Visitor::whereBetween('created_at', [$request->start_date, $request->end_date])
+    //         ->where('status', 'INACTIVE')
+    //         ->get();
+    //     return ResponseFormatter::success(
+    //         $visitors,
+    //         'Data Visitor Berhasil Diambil'
+    //     );
+    // }
 }
