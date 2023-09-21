@@ -17,7 +17,6 @@ class VisitorController extends Controller
             'address' => 'required|string',
             'phone_number' => 'required',
             'residents_id' => 'required|integer',
-            'date' => 'required',
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -27,7 +26,6 @@ class VisitorController extends Controller
             'address' => $request->address,
             'phone_number' => $request->phone_number,
             'residents_id' => $request->residents_id,
-            'date' => $request->date,
             'status' => 'ACTIVE',
             'photo' => $request->file('photo')->store('assets/visitor', 'public'),
         ]);
@@ -56,13 +54,12 @@ class VisitorController extends Controller
 
     }
 
-    public function changeVisitorStatus(Request $request, $id)
+    public function changeVisitorStatus($id)
     {
         $visitor = Visitor::find($id);
         if ($visitor) {
             $visitor->update([
                 'status' => "INACTIVE",
-                'date_checkout' => $request->date_checkout,
             ]);
             return ResponseFormatter::success(
                 $visitor,
