@@ -59,12 +59,13 @@ class VisitorController extends Controller
 
     }
 
-    public function changeVisitorStatus($id)
+    public function changeVisitorStatus(Request $request, $id)
     {
         $visitor = Visitor::find($id);
         if ($visitor) {
             $visitor->update([
                 'status' => "INACTIVE",
+                'date_checkout' => $request->date_checkout,
             ]);
             return ResponseFormatter::success(
                 $visitor,
