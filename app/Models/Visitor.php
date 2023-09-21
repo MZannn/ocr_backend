@@ -13,12 +13,12 @@ class Visitor extends Model
         'name',
         'address',
         'phone_number',
+        'residents_id',
         'date',
         'status',
         'photo',
     ];
     protected $hidden = [
-        'residents_id',
         'created_at',
         'updated_at',
     ];

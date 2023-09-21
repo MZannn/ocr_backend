@@ -16,9 +16,7 @@ class VisitorController extends Controller
             'name' => 'required|string',
             'address' => 'required|string',
             'phone_number' => 'required',
-            'person_to_visit' => 'required|string',
-            'person_address' => 'required|string',
-            'person_phone_number' => 'required',
+            'residents_id' => 'required|integer',
             'date' => 'required',
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -28,13 +26,12 @@ class VisitorController extends Controller
             'name' => $request->name,
             'address' => $request->address,
             'phone_number' => $request->phone_number,
-            'person_to_visit' => $request->person_to_visit,
-            'person_address' => $request->person_address,
-            'person_phone_number' => $request->person_phone_number,
+            'residents_id' => $request->residents_id,
             'date' => $request->date,
             'status' => 'ACTIVE',
             'photo' => $request->file('photo')->store('assets/visitor', 'public'),
         ]);
+        dd($visitor);
         return ResponseFormatter::success(
             $visitor,
             'Data Visitor Berhasil Ditambahkan'
