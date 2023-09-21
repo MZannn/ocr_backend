@@ -14,14 +14,11 @@ class Visitor extends Model
         'address',
         'phone_number',
         'residents_id',
-        'date',
         'status',
         'photo',
-        'date_checkout',
     ];
     protected $hidden = [
-        'created_at',
-        'updated_at',
+
     ];
     public function visitorHistory()
     {
