@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('security')->group(function(){
         Route::get('list',[SecurityController::class,'index'])->name('security.index');
         Route::post('create',[SecurityController::class,'store'])->name('security.create');
-        Route::get('edit/{id}',[SecurityController::class,'edit'])->name('security.edit');
+        Route::get('edit{id}',[SecurityController::class,'edit'])->name('security.edit');
         Route::get('data',[SecurityController::class,'ajaxData'])->name('security.ajax');
         Route::post('delete',[SecurityController::class,'delete'])->name('security.delete');
     });
@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function(){
     Route::prefix('resident')->group(function(){
         Route::get('list',[ResidentController::class,'index'])->name('resident.index');
         Route::post('store',[ResidentController::class,'store'])->name('resident.store');
-        Route::get('edit/{id}',[ResidentController::class,'edit'])->name('resident.edit');
+        Route::get('edit{id}',[ResidentController::class,'edit'])->name('resident.edit');
         Route::get('data',[ResidentController::class,'ajaxData'])->name('resident.ajax');
         Route::post('delete',[ResidentController::class,'delete'])->name('resident.delete');
     });
