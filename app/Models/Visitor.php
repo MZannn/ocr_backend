@@ -20,10 +20,12 @@ class Visitor extends Model
     protected $hidden = [
 
     ];
+
     public function visitorHistory()
     {
         return $this->hasMany(VisitorHistory::class);
     }
+
     public function resident()
     {
         return $this->belongsTo(Resident::class, 'residents_id', 'id');
