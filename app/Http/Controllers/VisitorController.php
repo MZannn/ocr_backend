@@ -6,6 +6,7 @@ use App\Helpers\ResponseFormatter;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use DataTables;
 
 class VisitorController extends Controller
 {
@@ -102,4 +103,25 @@ class VisitorController extends Controller
     //         'Data Visitor Berhasil Diambil'
     //     );
     // }
+
+    public function index()
+    {
+        return view('visitor.index');
+    }
+
+    public function ajaxData(Request $request)
+    {
+        $data = Visitor::where('Status','ACTIVE')->with(['resident']);
+
+        if ($request->has('date') && !empty($request->date)) {
+            $dates = explode(' - ', $request->date);
+            $start = $dates[0];
+            $end = $dates[1];
+            $data->whereDate('created_at', '>=', $start);
+            $data->whereDate('created_at', '<=', $end);
+        }
+
+        $data = $data->get();
+        return DataTables::of($data)->addIndexColumn()->toJson();
+    }
 }

@@ -54,8 +54,8 @@
                     <p>Master Resident</p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="tables.html">
+            <li class="nav-item {{ request()->is(['visitor','visitor/*']) ? 'active' : '' }}">
+                <a href="{{ route('visitor.index') }}">
                     <i class="la la-th"></i>
                     <p>History Pengunjung</p>
                 </a>

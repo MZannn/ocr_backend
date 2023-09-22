@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::prefix('visitor')->group(function(){
         Route::get('list',[VisitorController::class,'index'])->name('visitor.index');
+        Route::get('data',[VisitorController::class,'ajaxData'])->name('visitor.ajax');
     });
 
 });
